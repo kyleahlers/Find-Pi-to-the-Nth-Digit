@@ -1,8 +1,10 @@
 
 ##########################################################################
 # iterate through nikantha series with while loop
-# after each loop, check to see if digit is same as previous loop
-# if it is, then store it in the real value of pi
+# each pass through the while loop adds a term to the nilakantha series
+# the digits in the series are stored in an interable list
+# after each loop, we check to see if the latest digit is same as previous loop
+# if it is, then store it in a separate list for the "real value of pi"
 
 import support_functions as sf
 from decimal import Decimal as dec
@@ -19,7 +21,7 @@ def pi_nilakantha():
     iteration_a = [0]*user_num
     iteration_b = [0]*user_num
 
-    # set readable variable for while loop
+    # set variables for while loop
     complete = False
     operator = True
     error = False
@@ -62,30 +64,34 @@ def pi_nilakantha():
         iteration_a = iteration_b
         iteration_b = pi_list
 
-        # compare list a and list b.
+        # compare list a and list b. this is how we determine if the latest digit is done iterating or not
         result = sf.compare_list(iteration_a, iteration_b)
-    #     print('this is A')
-    #     print(iteration_a)
-    #     print('this is B')
-    #     print(iteration_b)
 
+        # breaks out of while loop if the number of digits (selected by user) has been satisfied
         if len(result) == user_num:
             complete = True
             break
 
+        # at end of while loop, add one to counter variable to keep track of number of iterations
         count += 1
-        # set maximum number of iterations to 5 million
+        
+        # set default maximum number of iterations to 5 million. 
         if count > 5000000:
             error = True
             print("You've exceeded the alotted number of iterations!")
             break
 
     ### end of while loop ###
+    
+    # only return results of while loop if "error" was not achieved
     if error != True:
+        
+        # convert list to integer
         my_pi = sf.pi_list_to_num(result)
         
+        # convert integer to pi approximation using decimal library for extra accuracy!
         my_pi = dec(my_pi) / dec((10** (user_num-1)))
-        #print(my_pi)
+        
         return my_pi
     else:
         pass
